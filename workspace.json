@@ -4,12 +4,16 @@
     "@nrwl/angular": {
       "application": {
         "strict": true,
+        "style": "scss",
+        "prefix": "grp",
         "linter": "eslint",
         "unitTestRunner": "jest",
         "e2eTestRunner": "cypress"
       },
       "library": {
         "strict": true,
+        "style": "scss",
+        "prefix": "grp",
         "linter": "eslint",
         "unitTestRunner": "jest"
       }
