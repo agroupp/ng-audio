@@ -1,6 +1,6 @@
 {
   "name": "ng-audio",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "nx": "nx",
@@ -23,20 +23,37 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "pretty-quick": "pretty-quick --staged"
   },
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "@nrwl/tao": "11.0.12",
+    "@nrwl/angular": "^11.0.12",
     "@nrwl/cli": "11.0.12",
+    "@nrwl/storybook": "^11.0.12",
+    "@nrwl/tao": "11.0.12",
     "@nrwl/workspace": "11.0.12",
     "@types/node": "12.12.38",
+    "commitizen": "^4.2.2",
+    "cz-customizable": "^6.3.0",
     "dotenv": "6.2.0",
+    "eslint": "7.10.0",
+    "husky": "^4.3.6",
+    "prettier": "2.1.2",
+    "pretty-quick": "^3.1.0",
     "ts-node": "~9.1.1",
     "tslint": "~6.1.0",
-    "eslint": "7.10.0",
-    "typescript": "~4.0.3",
-    "prettier": "2.1.2"
+    "typescript": "~4.0.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "pretty-quick --staged && exec < /dev/tty && git cz --hook || true"
+    }
   }
 }
