@@ -51,9 +51,7 @@
               "apps/audio-demo/src/favicon.ico",
               "apps/audio-demo/src/assets"
             ],
-            "styles": [
-              "apps/audio-demo/src/styles.scss"
-            ],
+            "styles": ["apps/audio-demo/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -114,9 +112,7 @@
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/audio-demo"
-          ],
+          "outputs": ["coverage/apps/audio-demo"],
           "options": {
             "jestConfig": "apps/audio-demo/jest.config.js",
             "passWithNoTests": true
@@ -145,9 +141,7 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/audio-demo-e2e/**/*.{js,ts}"
-            ]
+            "lintFilePatterns": ["apps/audio-demo-e2e/**/*.{js,ts}"]
           }
         }
       }
@@ -181,12 +175,10 @@
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/packages/core"
-          ],
+          "outputs": ["coverage/packages/core"],
           "options": {
             "jestConfig": "packages/core/jest.config.js",
-            "passWithNoTests": true
+            "passWithNoTests": false
           }
         }
       }
