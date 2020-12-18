@@ -23,7 +23,8 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "pretty-quick": "pretty-quick --staged"
   },
   "private": true,
   "dependencies": {},
@@ -51,7 +52,7 @@
   },
   "husky": {
     "hooks": {
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+      "prepare-commit-msg": "pretty-quick --staged && exec < /dev/tty && git cz --hook || true"
     }
   }
 }
