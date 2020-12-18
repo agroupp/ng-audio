@@ -1,8 +1,22 @@
 {
   "version": 2,
-
+  "generators": {
+    "@nrwl/angular": {
+      "application": {
+        "strict": true,
+        "linter": "eslint",
+        "unitTestRunner": "jest",
+        "e2eTestRunner": "cypress"
+      },
+      "library": {
+        "strict": true,
+        "linter": "eslint",
+        "unitTestRunner": "jest"
+      }
+    }
+  },
   "projects": {},
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/angular"
   }
 }
