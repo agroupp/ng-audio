@@ -22,7 +22,8 @@ module.exports = {
     { name: 'workspace' },
     { name: 'core' },
     { name: 'shared' },
-    { name: 'utils' }
+    { name: 'utils' },
+    { name: 'demo' }
   ],
   messages: {
     body: '📚  - Provide a LONGER description of the change (optional). Use "|" to break new line:\n',

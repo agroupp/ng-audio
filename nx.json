@@ -22,7 +22,15 @@
       }
     }
   },
-  "projects": {},
+  "projects": {
+    "audio-demo": {
+      "tags": ["type:app", "scope:demo"]
+    },
+    "audio-demo-e2e": {
+      "tags": ["type:e2e", "scope:demo"],
+      "implicitDependencies": ["audio-demo"]
+    }
+  },
   "workspaceLayout": {
     "appsDir": "apps",
     "libsDir": "packages"
