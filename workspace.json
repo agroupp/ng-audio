@@ -24,7 +24,8 @@
       "strict": true
     },
     "@nrwl/angular:library": {
-      "unitTestRunner": "jest"
+      "unitTestRunner": "jest",
+      "strict": true
     },
     "@nrwl/angular:component": {
       "style": "scss"
@@ -50,7 +51,9 @@
               "apps/audio-demo/src/favicon.ico",
               "apps/audio-demo/src/assets"
             ],
-            "styles": ["apps/audio-demo/src/styles.scss"],
+            "styles": [
+              "apps/audio-demo/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -111,7 +114,9 @@
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/audio-demo"],
+          "outputs": [
+            "coverage/apps/audio-demo"
+          ],
           "options": {
             "jestConfig": "apps/audio-demo/jest.config.js",
             "passWithNoTests": true
@@ -140,7 +145,48 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/audio-demo-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/audio-demo-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      }
+    },
+    "core": {
+      "projectType": "library",
+      "root": "packages/core",
+      "sourceRoot": "packages/core/src",
+      "prefix": "grp",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/angular:ng-packagr-lite",
+          "options": {
+            "tsConfig": "packages/core/tsconfig.lib.json",
+            "project": "packages/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/core/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "packages/core/src/**/*.ts",
+              "packages/core/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/packages/core"
+          ],
+          "options": {
+            "jestConfig": "packages/core/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }

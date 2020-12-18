@@ -29,6 +29,9 @@
     "audio-demo-e2e": {
       "tags": ["type:e2e", "scope:demo"],
       "implicitDependencies": ["audio-demo"]
+    },
+    "core": {
+      "tags": ["scope:core", "type:feature"]
     }
   },
   "workspaceLayout": {
