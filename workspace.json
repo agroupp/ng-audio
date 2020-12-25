@@ -51,7 +51,9 @@
               "apps/audio-demo/src/favicon.ico",
               "apps/audio-demo/src/assets"
             ],
-            "styles": ["apps/audio-demo/src/styles.scss"],
+            "styles": [
+              "apps/audio-demo/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -112,10 +114,12 @@
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/audio-demo"],
+          "outputs": [
+            "coverage/apps/audio-demo"
+          ],
           "options": {
             "jestConfig": "apps/audio-demo/jest.config.js",
-            "passWithNoTests": true
+            "passWithNoTests": false
           }
         }
       }
@@ -141,7 +145,9 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/audio-demo-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/audio-demo-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -153,7 +159,7 @@
       "prefix": "grp",
       "targets": {
         "build": {
-          "executor": "@nrwl/angular:ng-packagr-lite",
+          "executor": "@nrwl/angular:package",
           "options": {
             "tsConfig": "packages/core/tsconfig.lib.json",
             "project": "packages/core/ng-package.json"
@@ -175,10 +181,12 @@
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/packages/core"],
+          "outputs": [
+            "coverage/packages/core"
+          ],
           "options": {
             "jestConfig": "packages/core/jest.config.js",
-            "passWithNoTests": false
+            "passWithNoTests": true
           }
         }
       }
