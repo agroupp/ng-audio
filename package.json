@@ -85,7 +85,7 @@
   },
   "husky": {
     "hooks": {
-      "prepare-commit-msg": "pretty-quick --staged && exec < /dev/tty && git cz --hook || true"
+      "prepare-commit-msg": "pretty-quick --staged && git add -A && exec < /dev/tty && git cz --hook || true"
     }
   }
 }

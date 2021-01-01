@@ -47,10 +47,7 @@
             "polyfills": "apps/audio-demo/src/polyfills.ts",
             "tsConfig": "apps/audio-demo/tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "apps/audio-demo/src/favicon.ico",
-              "apps/audio-demo/src/assets"
-            ],
+            "assets": ["apps/audio-demo/src/favicon.ico", "apps/audio-demo/src/assets"],
             "styles": ["apps/audio-demo/src/styles.scss"],
             "scripts": []
           },
@@ -104,10 +101,7 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/audio-demo/src/**/*.ts",
-              "apps/audio-demo/src/**/*.html"
-            ]
+            "lintFilePatterns": ["apps/audio-demo/src/**/*.ts", "apps/audio-demo/src/**/*.html"]
           }
         },
         "test": {
@@ -167,10 +161,7 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "packages/core/src/**/*.ts",
-              "packages/core/src/**/*.html"
-            ]
+            "lintFilePatterns": ["packages/core/src/**/*.ts", "packages/core/src/**/*.html"]
           }
         },
         "test": {

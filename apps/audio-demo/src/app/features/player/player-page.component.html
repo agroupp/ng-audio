@@ -7,16 +7,13 @@
 <div class="player">
   <div class="controls">
     <button class="play-pause-btn" [disabled]="!(canPlay$ | async)" (click)="onPlayPauseClick()">
-      <div class="play-pause-btn-content" *ngIf="!(isPlaying$ | async) else playing">Play</div>
+      <div class="play-pause-btn-content" *ngIf="!(isPlaying$ | async); else playing">Play</div>
       <ng-template #playing>Pause</ng-template>
     </button>
   </div>
   <div class="progress-bar-wrapper">
     <div class="progress-bar">
-      <div class="progress-bar-layer-1"
-        *ngIf="position$ | async as position"
-        [ngStyle]="{transform: 'scaleX(' + position + ')'}"
-      ></div>
+      <div class="progress-bar-layer-1" *ngIf="position$ | async as position" [ngStyle]="{ transform: 'scaleX(' + position + ')' }"></div>
     </div>
   </div>
 </div>

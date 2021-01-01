@@ -8,31 +8,25 @@ import { switchMap, tap } from 'rxjs/operators';
   templateUrl: './player-page.component.html',
   styleUrls: ['./player-page.component.scss'],
   providers: [AudioService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlayerPageComponent implements OnInit {
-
   canPlay$ = new BehaviorSubject<boolean>(false);
   isLoading$ = this.audio.isLoading$;
-  telemetry$ = this.audio.state$.pipe(
-    switchMap(state => of(state.telemetry))
-  );
-  position$ =  this.audio.state$.pipe(
-    switchMap(state => of(state.telemetry.position))
-  );
+  telemetry$ = this.audio.state$.pipe(switchMap(state => of(state.telemetry)));
+  position$ = this.audio.state$.pipe(switchMap(state => of(state.telemetry.position)));
 
   private isPlaying = false;
   isPlaying$ = this.audio.state$.pipe(
     switchMap(state => of(state.isPlaying)),
-    tap(isPlaying => this.isPlaying = isPlaying)
+    tap(isPlaying => (this.isPlaying = isPlaying))
   );
 
-  constructor(public readonly audio: AudioService) { }
+  constructor(public readonly audio: AudioService) {}
 
   ngOnInit(): void {
     this.audio.error$.subscribe(console.log);
-    this.audio.state$
-    .subscribe(state => {
+    this.audio.state$.subscribe(state => {
       this.canPlay$.next(state.isReadyToPlay);
       // console.log(state)
     });

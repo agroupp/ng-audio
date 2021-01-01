@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MediaState, MediaStateTelemetry, createInitialState } from '../entities';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AudioService implements OnDestroy {
   private readonly destroy$ = new Subject();
@@ -19,7 +19,9 @@ export class AudioService implements OnDestroy {
   /**
    * Observable of media state.
    */
-  get state$(): Observable<MediaState> { return this.stateSubject.asObservable(); }
+  get state$(): Observable<MediaState> {
+    return this.stateSubject.asObservable();
+  }
 
   private readonly errorSubject = new Subject<MediaError | null>();
 
@@ -28,79 +30,76 @@ export class AudioService implements OnDestroy {
    * https://developer.mozilla.org/en-US/docs/Web/API/MediaError
    *
    */
-  get error$(): Observable<MediaError | null> { return this.errorSubject.asObservable(); }
+  get error$(): Observable<MediaError | null> {
+    return this.errorSubject.asObservable();
+  }
 
   private readonly isLoadingSubject = new BehaviorSubject<boolean>(false);
 
   /**
    * Observable of `loading` state.
    */
-  get isLoading$(): Observable<boolean> { return this.isLoadingSubject.asObservable(); }
-
+  get isLoading$(): Observable<boolean> {
+    return this.isLoadingSubject.asObservable();
+  }
 
   constructor() {
-    fromEvent<MediaError | null>(this.mediaElement, 'error').pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe({
-      next: () => this.errorSubject.next(this.mediaElement.error)
-    });
+    fromEvent<MediaError | null>(this.mediaElement, 'error')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => this.errorSubject.next(this.mediaElement.error),
+      });
 
-    fromEvent(this.mediaElement, 'loadstart').pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe({
-      next: () => {
-        this.loadingStart = Date.now();
-        this.isLoadingSubject.next(true);
-        this.state = {...this.state, isReadyToPlay: false};
-        this.emitState();
-      }
-    });
+    fromEvent(this.mediaElement, 'loadstart')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.loadingStart = Date.now();
+          this.isLoadingSubject.next(true);
+          this.state = { ...this.state, isReadyToPlay: false };
+          this.emitState();
+        },
+      });
 
-    fromEvent(this.mediaElement, 'canplay').pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe({
-      next: () => {
-        const loadingTime = Date.now() - this.loadingStart;
-        this.loadingStart = 0;
-        this.isLoadingSubject.next(false);
-        this.state = {...this.state, isReadyToPlay: true, loadingTime};
-        this.updateTelemetry();
-      }
-    });
+    fromEvent(this.mediaElement, 'canplay')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          const loadingTime = Date.now() - this.loadingStart;
+          this.loadingStart = 0;
+          this.isLoadingSubject.next(false);
+          this.state = { ...this.state, isReadyToPlay: true, loadingTime };
+          this.updateTelemetry();
+        },
+      });
 
-    fromEvent(this.mediaElement, 'play').pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe({
-      next: () => {
-        this.state = {...this.state, isPlayback: true, isEngaged: true};
-        this.emitState();
-      }
-    });
+    fromEvent(this.mediaElement, 'play')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.state = { ...this.state, isPlayback: true, isEngaged: true };
+          this.emitState();
+        },
+      });
 
-    fromEvent(this.mediaElement, 'pause').pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe({
-      next: () => {
-        this.state = {...this.state, isPlayback: false, isPlaying: false};
-        this.emitState();
-      }
-    });
+    fromEvent(this.mediaElement, 'pause')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.state = { ...this.state, isPlayback: false, isPlaying: false };
+          this.emitState();
+        },
+      });
 
-    fromEvent(this.mediaElement, 'playing').pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe({
-      next: () => {
-        // this.startTicker();
-        this.state = {...this.state, isPlaying: true};
-        this.emitState();
-      }
-    });
+    fromEvent(this.mediaElement, 'playing')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          // this.startTicker();
+          this.state = { ...this.state, isPlaying: true };
+          this.emitState();
+        },
+      });
   }
 
   setSource(source: string): void {
@@ -113,12 +112,15 @@ export class AudioService implements OnDestroy {
    * Starts playback.
    */
   play(): void {
-    this.mediaElement.play()
-    .then(() => this.animationFrameId = requestAnimationFrame(() => this.interval()))
-    .catch(() => this.errorSubject.next({
-      code: 10,
-      message: 'Not allowed to start playing'
-    } as MediaError));
+    this.mediaElement
+      .play()
+      .then(() => (this.animationFrameId = requestAnimationFrame(() => this.interval())))
+      .catch(() =>
+        this.errorSubject.next({
+          code: 10,
+          message: 'Not allowed to start playing',
+        } as MediaError)
+      );
   }
 
   /**
@@ -144,9 +146,9 @@ export class AudioService implements OnDestroy {
       duration,
       position: duration > 0 ? currentTime / duration : 0,
       timeLeft: duration > 0 ? duration - currentTime : 0,
-      playedTime: this.calculateTotalPlayedTime()
+      playedTime: this.calculateTotalPlayedTime(),
     };
-    this.state = {...this.state, telemetry: mainTelemetry};
+    this.state = { ...this.state, telemetry: mainTelemetry };
     this.emitState();
   }
 
