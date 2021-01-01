@@ -1,0 +1,30 @@
+.loader {
+  min-height: 40px;
+  p {
+    margin: 0;
+  }
+}
+
+.progress-bar-wrapper {
+  margin: 1rem 0;
+  max-width: 800px;
+
+  .progress-bar {
+    height: 5px;
+    border-radius: 3px;
+    background: #e6dbdb;
+    position: relative;
+    overflow: hidden;
+
+    .progress-bar-layer-1 {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #FF69B4;
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+  }
+}
