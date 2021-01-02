@@ -28,7 +28,7 @@ export class PlayerPageComponent implements OnInit {
     this.audio.error$.subscribe(console.log);
     this.audio.state$.subscribe(state => {
       this.canPlay$.next(state.isReadyToPlay);
-      // console.log(state)
+      console.log(state.telemetry)
     });
   }
 

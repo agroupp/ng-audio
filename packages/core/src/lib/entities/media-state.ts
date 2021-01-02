@@ -6,6 +6,9 @@ export interface MediaStateTelemetry {
   position: number;
   timeLeft: number;
   playedTime: number;
+  byteTimeDomainData?: Uint8Array;
+  floatTimeDomainData?: Float32Array;
+  byteFrequencyData?: Uint8Array;
 }
 
 export interface MediaState {
