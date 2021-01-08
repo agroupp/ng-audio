@@ -31,7 +31,10 @@
       "implicitDependencies": ["audio-demo"]
     },
     "core": {
-      "tags": ["scope:core", "type:feature"]
+      "tags": ["type:package"]
+    },
+    "visualization": {
+      "tags": []
     }
   },
   "workspaceLayout": {

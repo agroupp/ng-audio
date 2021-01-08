@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ng-audio/core": ["packages/core/src/index.ts"]
+      "@ng-audio/core": ["packages/core/src/index.ts"],
+      "@ng-audio/visualization/*": ["packages/visualization/src/lib/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
