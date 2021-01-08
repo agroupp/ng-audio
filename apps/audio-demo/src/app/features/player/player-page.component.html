@@ -6,8 +6,8 @@
 </div>
 <div class="player">
   <div class="controls">
-    <button class="play-pause-btn" [disabled]="!(canPlay$ | async)" (click)="onPlayPauseClick()">
-      <div class="play-pause-btn-content" *ngIf="!(isPlaying$ | async); else playing">Play</div>
+    <button class="play-pause-btn" [disabled]="(canPlay$ | async) === false" (click)="onPlayPauseClick()">
+      <div class="play-pause-btn-content" *ngIf="(isPlaying$ | async) === false; else playing">Play</div>
       <ng-template #playing>Pause</ng-template>
     </button>
   </div>

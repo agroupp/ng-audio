@@ -8,7 +8,7 @@ import { switchMap, tap } from 'rxjs/operators';
   templateUrl: './player-page.component.html',
   styleUrls: ['./player-page.component.scss'],
   providers: [AudioService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlayerPageComponent implements OnInit {
   canPlay$ = new BehaviorSubject<boolean>(false);
@@ -28,7 +28,7 @@ export class PlayerPageComponent implements OnInit {
     this.audio.error$.subscribe(console.log);
     this.audio.state$.subscribe(state => {
       this.canPlay$.next(state.isReadyToPlay);
-      console.log(state.telemetry)
+      console.log(state.telemetry);
     });
   }
 

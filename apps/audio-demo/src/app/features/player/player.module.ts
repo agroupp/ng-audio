@@ -5,6 +5,6 @@ import { PlayerPageComponent } from './player-page.component';
 
 @NgModule({
   declarations: [PlayerPageComponent],
-  imports: [CommonModule, RouterModule.forChild([{ path: '', component: PlayerPageComponent }])],
+  imports: [CommonModule, RouterModule.forChild([{ path: '', component: PlayerPageComponent }])]
 })
 export class PlayerModule {}

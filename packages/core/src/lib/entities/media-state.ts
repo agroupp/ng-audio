@@ -27,7 +27,7 @@ export function createInitialTelemetryState(): MediaStateTelemetry {
     duration: 0,
     position: 0,
     timeLeft: 0,
-    playedTime: 0,
+    playedTime: 0
   };
 }
 
@@ -39,6 +39,6 @@ export function createInitialState(): MediaState {
     isReadyToPlay: false,
     isEngaged: false,
     telemetry: createInitialTelemetryState(),
-    shadowRange: undefined,
+    shadowRange: undefined
   };
 }

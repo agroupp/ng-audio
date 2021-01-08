@@ -10,6 +10,6 @@ const routes: Route[] = [{ path: 'player', loadChildren: () => import('./feature
   declarations: [AppComponent],
   imports: [BrowserModule, RouterModule.forRoot(routes, { initialNavigation: 'enabled' })],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

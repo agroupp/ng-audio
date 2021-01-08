@@ -3,17 +3,18 @@ import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MediaState, MediaStateTelemetry, createInitialState } from '../entities';
+import { createAudioContext } from './audio-context';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AudioService implements OnDestroy {
   private readonly destroy$ = new Subject();
   private readonly stop$ = new Subject<void>();
   private readonly mediaElement = this.document.createElement('audio') as HTMLAudioElement;
-  private readonly audioContext = new AudioContext();
-  private readonly analyser = this.audioContext.createAnalyser();
-  private readonly mediaSource = this.audioContext.createMediaElementSource(this.mediaElement);
+  private readonly audioContext = createAudioContext();
+  private readonly analyser = this.audioContext?.createAnalyser();
+  private readonly mediaSource = this.audioContext?.createMediaElementSource(this.mediaElement);
   private loadingStart = 0;
   private animationFrameId?: number;
 
@@ -52,7 +53,7 @@ export class AudioService implements OnDestroy {
     fromEvent<MediaError | null>(this.mediaElement, 'error')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => this.errorSubject.next(this.mediaElement.error),
+        next: () => this.errorSubject.next(this.mediaElement.error)
       });
 
     fromEvent(this.mediaElement, 'loadstart')
@@ -63,7 +64,7 @@ export class AudioService implements OnDestroy {
           this.isLoadingSubject.next(true);
           this.state = { ...this.state, isReadyToPlay: false };
           this.emitState();
-        },
+        }
       });
 
     fromEvent(this.mediaElement, 'canplay')
@@ -75,7 +76,7 @@ export class AudioService implements OnDestroy {
           this.isLoadingSubject.next(false);
           this.state = { ...this.state, isReadyToPlay: true, loadingTime };
           this.updateTelemetry();
-        },
+        }
       });
 
     fromEvent(this.mediaElement, 'play')
@@ -84,7 +85,7 @@ export class AudioService implements OnDestroy {
         next: () => {
           this.state = { ...this.state, isPlayback: true, isEngaged: true };
           this.emitState();
-        },
+        }
       });
 
     fromEvent(this.mediaElement, 'pause')
@@ -93,7 +94,7 @@ export class AudioService implements OnDestroy {
         next: () => {
           this.state = { ...this.state, isPlayback: false, isPlaying: false };
           this.emitState();
-        },
+        }
       });
 
     fromEvent(this.mediaElement, 'playing')
@@ -103,18 +104,20 @@ export class AudioService implements OnDestroy {
           // this.startTicker();
           this.state = { ...this.state, isPlaying: true };
           this.emitState();
-        },
+        }
       });
   }
 
   setSource(source: string): void {
-    this.mediaSource.disconnect();
+    this.mediaSource?.disconnect();
     this.state = createInitialState();
     this.emitState();
     this.mediaElement.src = source;
-    this.mediaSource.connect(this.analyser);
-    this.analyser.connect(this.audioContext.destination);
-    this.analyser.fftSize = 2048;
+    if (this.audioContext && this.mediaSource && this.analyser) {
+      this.mediaSource.connect(this.analyser);
+      this.analyser.connect(this.audioContext.destination);
+      this.analyser.fftSize = 2048;
+    }
   }
 
   /**
@@ -127,7 +130,7 @@ export class AudioService implements OnDestroy {
       .catch(() =>
         this.errorSubject.next({
           code: 10,
-          message: 'Not allowed to start playing',
+          message: 'Not allowed to start playing'
         } as MediaError)
       );
   }
@@ -150,22 +153,24 @@ export class AudioService implements OnDestroy {
   private updateTelemetry(): void {
     const currentTime = this.mediaElement.currentTime;
     const duration = this.mediaElement.duration;
-    const byteTimeDomainData = new Uint8Array(this.analyser.frequencyBinCount);
-    const floatTimeDomainData = new Float32Array(this.analyser.fftSize);
-    const byteFrequencyData = new Uint8Array(this.analyser.frequencyBinCount);
-    this.analyser.getByteTimeDomainData(byteTimeDomainData);
-    this.analyser.getFloatTimeDomainData(floatTimeDomainData);
-    this.analyser.getByteFrequencyData(byteFrequencyData);
     const mainTelemetry: MediaStateTelemetry = {
       time: currentTime,
       duration,
       position: duration > 0 ? currentTime / duration : 0,
       timeLeft: duration > 0 ? duration - currentTime : 0,
-      playedTime: this.calculateTotalPlayedTime(),
-      byteTimeDomainData,
-      floatTimeDomainData,
-      byteFrequencyData
+      playedTime: this.calculateTotalPlayedTime()
     };
+    if (this.analyser) {
+      const byteTimeDomainData = new Uint8Array(this.analyser.frequencyBinCount);
+      const floatTimeDomainData = new Float32Array(this.analyser.fftSize);
+      const byteFrequencyData = new Uint8Array(this.analyser.frequencyBinCount);
+      this.analyser.getByteTimeDomainData(byteTimeDomainData);
+      this.analyser.getFloatTimeDomainData(floatTimeDomainData);
+      this.analyser.getByteFrequencyData(byteFrequencyData);
+      mainTelemetry.byteTimeDomainData = byteTimeDomainData;
+      mainTelemetry.floatTimeDomainData = floatTimeDomainData;
+      mainTelemetry.byteFrequencyData = byteFrequencyData;
+    }
     this.state = { ...this.state, telemetry: mainTelemetry };
     this.emitState();
   }

@@ -15,7 +15,8 @@
         "style": "scss",
         "prefix": "grp",
         "linter": "eslint",
-        "unitTestRunner": "jest"
+        "unitTestRunner": "jest",
+        "publishable": true
       }
     },
     "@nrwl/angular:application": {
