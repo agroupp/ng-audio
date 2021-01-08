@@ -32,6 +32,9 @@
     },
     "core": {
       "tags": ["type:package"]
+    },
+    "visualization": {
+      "tags": []
     }
   },
   "workspaceLayout": {
