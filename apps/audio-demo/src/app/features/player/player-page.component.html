@@ -12,8 +12,12 @@
     </button>
   </div>
   <div class="progress-bar-wrapper">
-    <div class="progress-bar">
-      <div class="progress-bar-layer-1" *ngIf="position$ | async as position" [ngStyle]="{ transform: 'scaleX(' + position + ')' }"></div>
+    <div class="progress-bar" click (position)="onProgressBarClick($event.x)">
+      <div
+        class="progress-bar-layer-1"
+        *ngIf="position$ | async as position"
+        [ngStyle]="{ transform: 'scaleX(' + position + ')' }"
+      ></div>
     </div>
   </div>
 </div>
@@ -21,5 +25,5 @@
   <p>Time: {{ telemetry.time | number }}</p>
   <p>Duration: {{ telemetry.duration | number }}</p>
   <p>Position: {{ telemetry.position | number }}</p>
-  <p>Total played time: {{ telemetry.playedTime | number }}</p>
+  <p>Total played time: {{ totalPlayTime | number }} <button (click)="onCalcPlayTime()">Calc</button></p>
 </div>
