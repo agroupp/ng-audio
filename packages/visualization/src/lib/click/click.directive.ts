@@ -16,7 +16,7 @@ export class ClickDirective implements OnDestroy {
   constructor(private readonly el: ElementRef) {
     fromEvent<MouseEvent>(el.nativeElement, 'click')
       .pipe(
-        map<MouseEvent, Coordinates>(event => ({ x: event.x, y: event.y })),
+        map<MouseEvent, Coordinates>(event => ({ x: event.screenX, y: event.screenY })),
         tap(coord => {
           if (!el.nativeElement || !(el.nativeElement as HTMLElement).getBoundingClientRect) {
             return;
