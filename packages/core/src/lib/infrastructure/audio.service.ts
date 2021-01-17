@@ -10,7 +10,6 @@ import { createAudioContext } from './audio-context';
 })
 export class AudioService implements OnDestroy {
   private readonly destroy$ = new Subject();
-  private readonly stop$ = new Subject<void>();
   private readonly mediaElement = this.document.createElement('audio') as HTMLAudioElement;
   private readonly audioContext = createAudioContext();
   private readonly analyser = this.audioContext?.createAnalyser();
@@ -101,7 +100,6 @@ export class AudioService implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          // this.startTicker();
           this.state = { ...this.state, isPlaying: true };
           this.emitState();
         }
@@ -145,6 +143,31 @@ export class AudioService implements OnDestroy {
     }
   }
 
+  moveToTime(time: number): void {
+    if (time < 0 || time > this.state.telemetry.duration) {
+      return;
+    }
+    this.mediaElement.currentTime = time;
+  }
+
+  moveToPosition(position: number): void {
+    if (position < 0 || position > 1) {
+      return;
+    }
+    this.moveToTime(this.state.telemetry.duration * position);
+  }
+
+  calculateTotalPlayedTime(): number {
+    if (this.mediaElement.played.length === 0) {
+      return 0;
+    }
+    let result = 0;
+    for (let i = 0; i < this.mediaElement.played.length; i++) {
+      result += this.mediaElement.played.end(i) - this.mediaElement.played.start(i);
+    }
+    return result;
+  }
+
   private interval(): void {
     this.updateTelemetry();
     this.animationFrameId = requestAnimationFrame(() => this.interval());
@@ -157,8 +180,7 @@ export class AudioService implements OnDestroy {
       time: currentTime,
       duration,
       position: duration > 0 ? currentTime / duration : 0,
-      timeLeft: duration > 0 ? duration - currentTime : 0,
-      playedTime: this.calculateTotalPlayedTime()
+      timeLeft: duration > 0 ? duration - currentTime : 0
     };
     if (this.analyser) {
       const byteTimeDomainData = new Uint8Array(this.analyser.frequencyBinCount);
@@ -173,17 +195,6 @@ export class AudioService implements OnDestroy {
     }
     this.state = { ...this.state, telemetry: mainTelemetry };
     this.emitState();
-  }
-
-  private calculateTotalPlayedTime(): number {
-    if (this.mediaElement.played.length === 0) {
-      return 0;
-    }
-    let result = 0;
-    for (let i = 0; i < this.mediaElement.played.length; i++) {
-      result += this.mediaElement.played.end(i) - this.mediaElement.played.start(i);
-    }
-    return result;
   }
 
   private emitState(): void {

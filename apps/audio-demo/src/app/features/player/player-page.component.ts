@@ -15,6 +15,7 @@ export class PlayerPageComponent implements OnInit {
   isLoading$ = this.audio.isLoading$;
   telemetry$ = this.audio.state$.pipe(switchMap(state => of(state.telemetry)));
   position$ = this.audio.state$.pipe(switchMap(state => of(state.telemetry.position)));
+  totalPlayTime = 0;
 
   private isPlaying = false;
   isPlaying$ = this.audio.state$.pipe(
@@ -28,12 +29,15 @@ export class PlayerPageComponent implements OnInit {
     this.audio.error$.subscribe(console.log);
     this.audio.state$.subscribe(state => {
       this.canPlay$.next(state.isReadyToPlay);
-      console.log(state.telemetry);
+      // console.log(state.telemetry);
     });
   }
 
   onLoadSourceClick(): void {
-    this.audio.setSource(`https://storageaudiobursts.azureedge.net/audio/JWPqNqk2ayyL.mp3?nocache=${Date.now()}`);
+    this.totalPlayTime = 0;
+    this.audio.setSource(
+      `https://storageaudiobursts.azureedge.net/audio/JWPqNqk2ayyL.mp3?nocache=${Date.now()}`
+    );
   }
 
   onPlayPauseClick(): void {
@@ -42,5 +46,13 @@ export class PlayerPageComponent implements OnInit {
     } else {
       this.audio.play();
     }
+  }
+
+  onProgressBarClick(x: number): void {
+    this.audio.moveToPosition(x);
+  }
+
+  onCalcPlayTime(): void {
+    this.totalPlayTime = this.audio.calculateTotalPlayedTime();
   }
 }

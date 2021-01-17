@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@ng-audio/core": ["packages/core/src/index.ts"],
-      "@ng-audio/visualization/*": ["packages/visualization/src/lib/*"]
+      "@ng-audio/visualization/*": ["packages/visualization/src/lib/*"],
+      "@ng-audio/visualization": ["dist/packages/visualization/*", "dist/packages/visualization"]
     }
   },
   "exclude": ["node_modules", "tmp"]

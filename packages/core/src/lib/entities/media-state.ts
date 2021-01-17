@@ -5,7 +5,6 @@ export interface MediaStateTelemetry {
   duration: number;
   position: number;
   timeLeft: number;
-  playedTime: number;
   byteTimeDomainData?: Uint8Array;
   floatTimeDomainData?: Float32Array;
   byteFrequencyData?: Uint8Array;
@@ -26,8 +25,7 @@ export function createInitialTelemetryState(): MediaStateTelemetry {
     time: 0,
     duration: 0,
     position: 0,
-    timeLeft: 0,
-    playedTime: 0
+    timeLeft: 0
   };
 }
 

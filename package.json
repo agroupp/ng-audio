@@ -86,7 +86,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && git add -A . && npm run affected:lint",
+      "pre-commit": "pretty-quick --staged && npm run affected:lint -- --fix && git add -A .",
       "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
       "pre-push": "npm run affected:test"
     }
